@@ -23,9 +23,19 @@ const getXML = url => {
 
 getXML(URI)
   .then(xml => {
+    const headers = {}
     const parser = new XMLParser()
     const { oficinas: { oficina } } = parser.parse(xml)
-    const csv = Papa.unparse(oficina)
+    oficina.forEach(item => {
+      Object.keys(item).forEach(key => {
+        headers[key] = 1
+      })
+    })
+    const csv = Papa.unparse({
+      fields: Object.keys(headers),
+      data: oficina
+    })
+    console.log(csv)
     writeFileSync(OUTPUT, csv)
     console.log('=> Done')
   })
