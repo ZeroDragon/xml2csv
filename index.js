@@ -54,6 +54,11 @@ getXML(URI)
         headers[key] = 1
       })
     })
+    array.forEach(item => {
+      for (const key in item) {
+        item[key] = JSON.stringify(item[key])
+      }
+    })
     const csv = Papa.unparse({
       fields: Object.keys(headers),
       data: array
